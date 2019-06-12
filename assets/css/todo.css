@@ -1,0 +1,21 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Montserrat, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: #222;
+  color: #eee;
+}
+#app ::selection {
+  background-color: transparent;
+  color: rgb(74, 219, 255);
+}

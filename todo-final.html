@@ -1,0 +1,43 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Mad List</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/css/todo.css" />
+  </head>
+
+  <body>
+    <div id="app"></div>
+    <script>
+      Vue.component('todo-item', {
+        props: [
+          {
+            name: 'item',
+            type: String,
+            required: true
+          }
+        ],
+        template: `
+          <div class="item" :class="{'item-done': isDone}">
+            <div class="item-checkbox"></div>
+            <div class="item-text">{{ item.text}}</div>
+          </div>
+        `
+      })
+      var app = new Vue({
+        el: '#app',
+        data: {
+          item: '',
+          items: []
+        },
+        methods: {}
+      })
+    </script>
+  </body>
+</html>
