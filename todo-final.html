@@ -6,28 +6,28 @@
     <title>Mad List</title>
     <script src="https://unpkg.com/vue"></script>
     <link
-      href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
     />
     <link rel="stylesheet" href="/assets/css/todo.css" />
   </head>
 
   <body>
-    <div id="app">
-      <h2>My Todo List</h2>
+    <div id="app" class="continer is-fluid">
+      <h2 class="title">My Todo List</h2>
       <p>{{ doneCount }} of {{ itemList.length }} items done.</p>
       <p>
-        <button class="clear-btn" @click="clearDone">Clear Done Items</button>
+        <button class="button" @click="clearDone">Clear Done Items</button>
       </p>
       <h3 v-if="itemList.length === 0">No items. You must be awesome</h3>
-      <div class="item-list">
+      <ul class="item-list">
         <todo-item
           v-for="item in itemList"
           :key="item.id"
           :item="item"
           @toggle-done="toggleDone"
         ></todo-item>
-      </div>
+      </ul>
       <div class="new-item">
         <input
           type="text"
@@ -48,10 +48,10 @@
           }
         },
         template: `
-          <div class="item" :class="{'item-done': item.isDone}">
-            <div class="item-checkbox" @click="$emit('toggle-done', item.id)">{{ item.isDone ? 'x' : 'o'}}</div>
+          <li class="item" :class="{'item-done': item.isDone}">
+            <input class="item-checkbox" type="checkbox" :checked="item.isDone" @click="$emit('toggle-done', item.id)" />
             <div class="item-text">{{ item.text }}</div>
-          </div>
+          </li>
         `
       })
       var app = new Vue({
