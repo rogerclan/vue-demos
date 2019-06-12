@@ -13,30 +13,86 @@
   </head>
 
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <h2>My Todo List</h2>
+      <p>{{ doneCount }} of {{ itemList.length }} items done.</p>
+      <p>
+        <button class="clear-btn" @click="clearDone">Clear Done Items</button>
+      </p>
+      <h3 v-if="itemList.length === 0">No items. You must be awesome</h3>
+      <div class="item-list">
+        <todo-item
+          v-for="item in itemList"
+          :key="item.id"
+          :item="item"
+          @toggle-done="toggleDone"
+        ></todo-item>
+      </div>
+      <div class="new-item">
+        <input
+          type="text"
+          placeholder="What dou you want now?"
+          v-model="newItem"
+          @keyup.enter="addItem"
+          @keyup.esc="cancel"
+          @blur="addItem"
+        />
+      </div>
+    </div>
     <script>
       Vue.component('todo-item', {
-        props: [
-          {
-            name: 'item',
-            type: String,
+        props: {
+          item: {
+            type: Object,
             required: true
           }
-        ],
+        },
         template: `
-          <div class="item" :class="{'item-done': isDone}">
-            <div class="item-checkbox"></div>
-            <div class="item-text">{{ item.text}}</div>
+          <div class="item" :class="{'item-done': item.isDone}">
+            <div class="item-checkbox" @click="$emit('toggle-done', item.id)">{{ item.isDone ? 'x' : 'o'}}</div>
+            <div class="item-text">{{ item.text }}</div>
           </div>
         `
       })
       var app = new Vue({
         el: '#app',
         data: {
-          item: '',
-          items: []
+          newItem: '',
+          itemList: []
         },
-        methods: {}
+        methods: {
+          toggleDone: function(id) {
+            var items = this.itemList.map(i => Object.assign({}, i))
+            for (var item in items) {
+              if (items[item].id === id)
+                items[item].isDone = !items[item].isDone
+            }
+            this.itemList = items
+          },
+          addItem: function() {
+            if (this.newItem !== '') {
+              var max = 0
+              for (var item in this.itemList) {
+                if (item.id > max) max = item.id
+              }
+              var items = this.itemList
+              items.push({ id: max + 1, isDone: false, text: this.newItem })
+              this.itemList = items
+              this.newItem = ''
+            }
+          },
+          clearDone: function() {
+            this.itemList = this.itemList.filter(i => i.isDone === false)
+          },
+          cancel: function() {
+            this.newItem = ''
+          }
+        },
+        computed: {
+          doneCount: function() {
+            return this.itemList.filter(i => i.isDone).length
+          }
+        }
       })
     </script>
   </body>
