@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>We &#x2764; Chuck</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/css/quote.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="quote">
+        <blockquote>
+          {{ quote }}
+        </blockquote>
+        <cite>- {{ firstName || "Chuck" }} {{ lastName || "Norris" }}</cite>
+      </div>
+      <p class="quote__input">
+        <input
+          placeholder="First Name"
+          type="text"
+          v-model="inputFirstName"
+          @blur="inputFirstName === inputFirstName.trim()"
+        />
+        <input
+          placeholder="Last Name"
+          type="text"
+          v-model="inputLastName"
+          @blur="inputLastName === inputLastName.trim()"
+        /><button class="reload-btn" @click="getJoke">Reload</button>
+      </p>
+    </div>
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          firstName: "",
+          lastName: "",
+          inputFirstName: "",
+          inputLastName: "",
+          quote: `When Chuck Norris does a push up, he isn't 
+          lifting himself up, he's pushing the Earth down.`
+        },
+        methods: {
+          getJoke: function() {
+            var me = this;
+            this.inputFirstName = this.inputFirstName.trim();
+            this.inputLastName = this.inputLastName.trim();
+            var url = "http://api.icndb.com/jokes/random?exclude=[explicit]";
+            if (this.inputFirstName !== "")
+              url += "&firstName=" + this.inputFirstName;
+            if (this.inputLastName !== "")
+              url += "&lastName=" + this.inputLastName;
+
+            fetch(url)
+              .then(function(response) {
+                return response.json();
+              })
+              .then(function(data) {
+                me.firstName = me.inputFirstName;
+                me.lastName = me.inputLastName;
+                me.quote = data.value.joke;
+              });
+          }
+        },
+        mounted: function() {
+          this.getJoke();
+        }
+      });
+    </script>
+  </body>
+</html>

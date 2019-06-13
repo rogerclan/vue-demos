@@ -4,7 +4,7 @@ body {
   padding: 0;
   height: 100%;
   width: 100%;
-  font-family: Montserrat, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Montserrat, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 #app {
   display: flex;
@@ -58,4 +58,20 @@ cite {
 #app .quote__input input:focus::selection {
   background-color: rgb(94, 245, 94);
   color: rgb(22, 22, 22);
+}
+
+.reload-btn {
+  display: inline-block;
+  margin-left: 20px;
+  color: rgb(74, 219, 255);
+  background: transparent;
+  outline: none;
+  border: none;
+  transition: all 0.5s;
+}
+
+.reload-btn:hover {
+  transform: scale(1.2);
+  border: 1px dashed rgb(74, 219, 255);
+  cursor: pointer;
 }
